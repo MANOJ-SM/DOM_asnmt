@@ -6,13 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const studentsTableBody = document.querySelector("#studentsTable tbody");
     const addStudentButton = document.getElementById("addStudent");
 
-    // Load data from localStorage
+    // load data from localStorage
     let students = JSON.parse(localStorage.getItem("students")) || [];
 
+    // saving student data to localStorage
     const saveToLocalStorage = () => {
         localStorage.setItem("students", JSON.stringify(students));
     };
 
+
+    // creating dyanmic rows of  registered students
     const renderStudents = () => {
         studentsTableBody.innerHTML = "";
         students.forEach((student, index) => {
@@ -32,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+
+    // valdidating correct input from the user of the student form
     const validateInput = () => {
         const name = document.getElementById("name").value.trim();
         const studentID = document.getElementById("studentID").value.trim();
@@ -46,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
    
-
+    // handling form submission
     addStudentButton.addEventListener("click", () => {
         const error = validateInput();
         if (error) {
@@ -54,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // creating a new student object
         const student = {
             name: document.getElementById("name").value.trim(),
             studentID: document.getElementById("studentID").value.trim(),
@@ -61,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             contact: document.getElementById("contact").value.trim(),
         };
 
+        // clearing the form fields after registration of student 
         const clearForm = () => {
             studentForm.reset();
         };
@@ -71,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clearForm();
     });
 
+
+    // prefilling the form of the specific student when edit button is clicked or delete button is used to delete a student from localStorage permenntely 
     studentsTableBody.addEventListener("click", (e) => {
         const index = e.target.dataset.index;
         if (e.target.classList.contains("edit")) {
